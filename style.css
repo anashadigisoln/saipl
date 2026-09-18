@@ -2092,7 +2092,7 @@ body {
       rgba(7, 13, 25, 0.5) 50%,
       rgba(7, 13, 25, 0.95) 100%
     ),
-    url('/about-us.png');
+    url('about-us.png');
   background-attachment: fixed; /* Keeps image locked while scrolling */
   background-position: center;
   background-repeat: no-repeat;
@@ -2899,7 +2899,7 @@ body {
   width: 100%;
   padding: 4rem 0 4.5rem 0;
   /* High-resolution industrial image */
-  background-image: url('/contact-us.png');
+  background-image: url('contact-us.png');
   background-attachment: fixed; /* Fixed background: content slides over it */
   background-position: center;
   background-repeat: no-repeat;
@@ -3369,7 +3369,7 @@ body {
 .products-hero-section {
   width: 100%;
   padding: 8rem 0 3.5rem 0;
-  background-image: url('/PP Fabric Plant.jpg'); /* High-resolution industrial image */
+  background-image: url('PP Fabric Plant.jpg'); /* High-resolution industrial image */
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
