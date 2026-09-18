@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Careers & Opportunities | SAIPL / NEXUS</title>
+
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Load Mulish and Playfair Display from Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Mulish:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --bg-color: #f8fafc;
+      --white: #ffffff;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 15px 30px -5px rgba(0, 0, 0, 0.12);
+      --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Mulish', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    ul { list-style: none; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Reading Progress Bar */
+    .top-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--primary-color);
+      width: 0%;
+      z-index: 1005;
+      transition: width 0.1s linear;
+    }
+
+    /* ==================== 1. HEADER & NAVIGATION ==================== */
+    .header {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1200px;
+      z-index: 1000;
+      transition: var(--transition);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      padding: 0.75rem 1.75rem;
+      border-radius: 100px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .top-bar-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--text-dark);
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--primary-color);
+      color: var(--white);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-item {
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: var(--primary-color);
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: var(--white);
+      padding: 0.65rem 1.35rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+    }
+
+    .hamburger-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      z-index: 1005 !important;
+    }
+
+    .bar {
+      width: 22px;
+      height: 2px;
+      background-color: var(--text-dark);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .hamburger-btn.is-active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.is-active .bar:nth-child(2) { opacity: 0; }
+    .hamburger-btn.is-active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile Navigation Drawer */
+    .left-drawer {
+      position: fixed;
+      top: 0;
+      left: -320px;
+      width: 290px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: var(--shadow-lg);
+      padding: 2.5rem 1.75rem;
+      z-index: 1004;
+      transition: left var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .left-drawer.is-active { left: 0 !important; }
+
+    .drawer-header { margin-bottom: 2rem; }
+
+    .drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      padding: 0.5rem 0;
+      transition: color 0.2s;
+    }
+
+    .drawer-item:hover, .drawer-item.active { color: var(--primary-color); }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1003;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .drawer-overlay.is-active { opacity: 1 !important; pointer-events: auto !important; }
+
+    /* ==================== 2. HERO SECTION ==================== */
+    .careers-hero {
+      padding: 9.5rem 1.5rem 4.5rem;
+      text-align: center;
+      background: radial-gradient(circle at top, #eff6ff 0%, #f8fafc 70%);
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .hero-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary-color);
+      padding: 0.4rem 1.1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .careers-hero h1 {
+      font-size: 2.85rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .careers-hero p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-card h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary-color);
+    }
+
+    .stat-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    /* ==================== 3. PERKS & CULTURE ==================== */
+    .section-container {
+      max-width: 1200px;
+      margin: 4.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .perk-card {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .perk-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-color);
+    }
+
+    .perk-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary-color);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .perk-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .perk-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ==================== 4. OPEN POSITIONS ==================== */
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--primary-color);
+      color: var(--white);
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .job-card {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      gap: 1.5rem;
+    }
+
+    .job-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: var(--shadow-md);
+      transform: scale(1.01);
+    }
+
+    .job-info h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .job-tags {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .job-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #f1f5f9;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+    }
+
+    /* ==================== 5. APPLICATION MODAL ==================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--white);
+      width: 100%;
+      max-width: 580px;
+      border-radius: 24px;
+      padding: 2.25rem;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.is-active .modal-card {
+      transform: translateY(0);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: #f1f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .close-modal:hover { background: #e2e8f0; }
+
+    .modal-card h3 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+
+    .modal-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .app-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--primary-color);
+    }
+
+    /* ==================== 6. FAQ ACCORDION ==================== */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-question {
+      padding: 1.25rem 1.5rem;
+      font-weight: 700;
+      font-size: 1.02rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .faq-item.is-open .faq-answer {
+      max-height: 200px;
+      padding: 0 1.5rem 1.25rem;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-icon { transition: transform 0.3s ease; }
+
+    /* CTA Banner */
+    .join-cta-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: var(--white);
+      border-radius: 28px;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      margin: 4rem auto;
+      max-width: 1100px;
+    }
+
+    .join-cta-banner h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .join-cta-banner p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      margin-bottom: 1.75rem;
+    }
+
+    /* ==================== 7. SITE FOOTER STYLES ==================== */
+    .site-footer {
+      background: #090d16;
+      color: #94a3b8;
+      padding: 4.5rem 0 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid #1e293b;
+    }
+
+    .footer-glow {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+    }
+    .glow-1 { top: -100px; left: -100px; }
+    .glow-2 { bottom: -50px; right: -50px; }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-main-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1.3fr;
+      gap: 3rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .footer-logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo .logo-dot { color: var(--primary-color); }
+
+    .footer-tagline {
+      color: #f1f5f9;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-subtext {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      color: #94a3b8;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .social-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-btn:hover {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .footer-heading {
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-nav a {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: var(--transition);
+    }
+
+    .footer-nav a:hover {
+      color: var(--primary-color);
+      transform: translateX(4px);
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 0.9rem;
+      font-size: 0.88rem;
+    }
+
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary-color);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .info-label {
+      display: block;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.82rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .contact-info p, .contact-info a {
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    .contact-info a:hover { color: var(--primary-color); }
+
+    .footer-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      margin-bottom: 1.75rem;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 2rem;
+      font-size: 0.85rem;
+    }
+
+    .legal-links {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .legal-links a:hover { color: #ffffff; }
+
+    /* Visitor Counter Bar */
+    .site-credits-bar {
+      background: #030712;
+      border-top: 1px solid #111827;
+      padding: 1rem 0;
+      font-size: 0.82rem;
+    }
+
+    .credits-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .visitor-counter-box {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .live-status-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .visitor-number {
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 992px) {
+      .nav-links, .desktop-cta { display: none !important; }
+      .hamburger-btn { display: flex !important; }
+      .careers-hero h1 { font-size: 2.2rem; }
+      .job-card { flex-direction: column; align-items: flex-start; }
+      .footer-main-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .credits-container { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 576px) {
+      .careers-hero { padding: 7rem 1rem 3rem; }
+      .careers-hero h1 { font-size: 1.75rem; }
+      .join-cta-banner h2 { font-size: 1.6rem; }
+      .modal-card { padding: 1.5rem; }
+    }
+
+    /* Reset & Universal Setup */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  
+  /* Fixed background image effect */
+  background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  /* Keeps hero behind scrolling content */
+  z-index: 1;
+}
+
+/* Semi-transparent dark overlay for readable text */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+/* Hero Text Box */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 30px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: 3.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  color: #e2e8f0;
+  margin-bottom: 2rem;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Call to Action Buttons */
+.hero-cta-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.875rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  backdrop-filter: blur(4px);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Main Content Section (Slides Over Hero) */
+.main-content {
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  padding: 5rem 1.5rem;
+  min-height: 100vh;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.25rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  /* Disable fixed attachment on mobile for smooth performance */
+  .hero-section {
+    background-attachment: scroll;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Top Scroll Progress Bar -->
+  <div class="top-progress-bar" id="topProgressBar"></div>
+
+  <!-- Main Header -->
+  <header class="header" id="header">
+    <nav class="navbar" id="navbar">
+      <!-- Top Bar Content -->
+      <div class="top-bar-content" id="top-bar-content">
+        
+        <!-- Brand Logo -->
+        <a href="#" class="logo">
+            <span class="logo-text">SAIPL</span>
+            <span class="logo-dot">.</span>
+          </a>
+
+        <!-- Desktop Navigation -->
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-item active">Home</a></li>
+          <li>
+            <a href="products.html"
+                class="nav-item"
+                onclick="window.open('https://www.indiamart.com/shrawani-addsbs-india-private-limited/', '_blank');">Products</a>
+          </li>
+          <li><a href="about.html" class="nav-item">About Us</a></li>
+          <li><a href="contact.html" class="nav-item">Contact Us</a></li>
+          <li><a href="blog.html" class="nav-item">Blog</a></li>
+        </ul>
+
+        <!-- WhatsApp CTA Button -->
+        <a href="https://wa.me/919975379874?text=Hello%21%20I%20am%20interested%20in%20your%20PP%2FHDPE%2FLeno%2FBOPP%20fabrics." class="btn-whatsapp desktop-cta" target="_blank" rel="noopener noreferrer">
+          <i class="ri-whatsapp-line"></i>
+          <span>+91 99753 79874</span>
+        </a>
+
+        <!-- Hamburger Button -->
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- Slide-in Navigation Drawer -->
+  <aside class="left-drawer" id="left-drawer">
+    <div class="drawer-header">
+      <a href="#" class="logo">
+        
+        <span class="logo-text">SAIPL</span>
+      </a>
+    </div>
+    
+    <ul class="drawer-links">
+      <li><a href="index.html" class="drawer-item"><i class="ri-home-5-line"></i> Home</a></li>
+      <li><a href="products.html" class="drawer-item"><i class="ri-grid-line"></i> Products</a></li>
+      <li><a href="about.html" class="drawer-item"><i class="ri-building-line"></i> About Us</a></li>
+      <li><a href="career.html" class="drawer-item"><i class="ri-briefcase-line"></i> Careers</a></li>
+     <li><a href="blog.html" class="drawer-item"><i class="ri-lightbulb-line"></i> Blog</a></li>
+      <li><a href="contact.html" class="drawer-item btn-drawer-cta"><i class="ri-mail-line"></i> Contact Us</a></li>
+    
+    </ul>
+  </aside>
+
+  <!-- Backdrop Overlay for Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+
+<!-- Backdrop Overlay for Drawer -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+  </header>
+
+  <!-- Left Side Drawer Overlay (Appears when Hamburger is Clicked) -->
+  <aside class="left-drawer" id="left-drawer">
+    <div class="drawer-header">
+      <div class="logo">
+        <span class="logo-icon"><i class="ri-pulse-fill"></i></span>
+        <span class="logo-text">NEXUS</span>
+      </div>
+    </div>
+    <ul class="drawer-links">
+      <li><a href="index.html" class="drawer-item"><i class="ri-home-5-line"></i> Home</a></li>
+      <li><a href="products.html" class="drawer-item"><i class="ri-grid-line"></i> Products</a></li>
+      <li><a href="about.html" class="drawer-item"><i class="ri-building-line"></i> About Us</a></li>
+      <li><a href="blog.html" class="drawer-item"><i class="ri-lightbulb-line"></i> Blog</a></li>
+      <li><a href="careers.html" class="drawer-item"><i class="ri-briefcase-line"></i> Careers</a></li>
+      <li><a href="contact.html" class="drawer-item"><i class="ri-mail-line"></i> Contact Us</a></li>
+    </ul>
+  </aside>
+
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Hero Section with Background Parallax -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">Welcome to Our Company</span>
+    <h1 class="hero-title">Building the Future of Digital Innovation</h1>
+    <p class="hero-description">
+      We design and build scalable solutions that empower businesses worldwide. 
+      Explore our vision, join our mission, and discover how we are shaping tomorrow.
+    </p>
+    <div class="hero-cta-group">
+      <a href="#about" class="btn btn-primary">Explore More</a>
+      <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+  <!-- Perks Section -->
+  <section class="section-container">
+    <div class="section-title">
+      <h2>Why Work With Us?</h2>
+      <p>We empower our engineers, designers, and supply chain specialists to do their best work.</p>
+    </div>
+
+    <div class="perks-grid">
+      <div class="perk-card">
+        <div class="perk-icon"><i class="ri-line-chart-line"></i></div>
+        <h3>Rapid Career Growth</h3>
+        <p>Continuous training programs, executive mentorship, and structured leadership progression pathways.</p>
+      </div>
+
+      <div class="perk-card">
+        <div class="perk-icon"><i class="ri-heart-pulse-line"></i></div>
+        <h3>Comprehensive Benefits</h3>
+        <p>Premium medical insurance coverage, wellness stipends, and family health support.</p>
+      </div>
+
+      <div class="perk-card">
+        <div class="perk-icon"><i class="ri-macbook-line"></i></div>
+        <h3>Modern Workspace & Tools</h3>
+        <p>State-of-the-art workstations, advanced ERP systems, and collaborative modern offices.</p>
+      </div>
+
+      <div class="perk-card">
+        <div class="perk-icon"><i class="ri-flight-takeoff-line"></i></div>
+        <h3>Flexible Time Off</h3>
+        <p>Generous paid leave allowances, paid holidays, and healthy work-life balance policies.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open Positions Section -->
+  <section class="section-container" id="openings">
+    <div class="section-title">
+      <h2>Current Job Openings</h2>
+      <p>Find a position that matches your skill set and career aspirations.</p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="filter-tabs">
+      <button class="tab-btn active" onclick="filterJobs('all')">All Roles</button>
+      <button class="tab-btn" onclick="filterJobs('ppc')">Supply Chain & PPC</button>
+      <button class="tab-btn" onclick="filterJobs('engineering')">Engineering & Plant</button>
+      <button class="tab-btn" onclick="filterJobs('design')">Design & UI/UX</button>
+      <button class="tab-btn" onclick="filterJobs('sales')">Sales & Marketing</button>
+    </div>
+
+    <!-- Job Cards List -->
+    <div class="jobs-list">
+
+      <div class="job-card" data-category="ppc">
+        <div class="job-info">
+          <h3>Senior PPC Engineer (Production Planning & Control)</h3>
+          <div class="job-tags">
+            <span class="job-tag"><i class="ri-map-pin-line"></i> Bhosari / Pune, IN</span>
+            <span class="job-tag"><i class="ri-time-line"></i> Full-time</span>
+            <span class="job-tag"><i class="ri-briefcase-line"></i> 4+ Yrs Exp</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="openApplyModal('Senior PPC Engineer')">Apply Now <i class="ri-arrow-right-line"></i></button>
+      </div>
+
+      <div class="job-card" data-category="ppc">
+        <div class="job-info">
+          <h3>Purchase & Supply Chain Executive</h3>
+          <div class="job-tags">
+            <span class="job-tag"><i class="ri-map-pin-line"></i> Chakan / Pune, IN</span>
+            <span class="job-tag"><i class="ri-time-line"></i> Full-time</span>
+            <span class="job-tag"><i class="ri-briefcase-line"></i> 2+ Yrs Exp</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="openApplyModal('Purchase & Supply Chain Executive')">Apply Now <i class="ri-arrow-right-line"></i></button>
+      </div>
+
+      <div class="job-card" data-category="design">
+        <div class="job-info">
+          <h3>UI/UX & Visual Graphic Designer</h3>
+          <div class="job-tags">
+            <span class="job-tag"><i class="ri-map-pin-line"></i> Remote / Hybrid</span>
+            <span class="job-tag"><i class="ri-time-line"></i> Full-time</span>
+            <span class="job-tag"><i class="ri-briefcase-line"></i> 2-5 Yrs Exp</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="openApplyModal('UI/UX & Visual Graphic Designer')">Apply Now <i class="ri-arrow-right-line"></i></button>
+      </div>
+
+      <div class="job-card" data-category="engineering">
+        <div class="job-info">
+          <h3>Extrusion & Polymer Process Engineer</h3>
+          <div class="job-tags">
+            <span class="job-tag"><i class="ri-map-pin-line"></i> Talegaon, IN</span>
+            <span class="job-tag"><i class="ri-time-line"></i> Full-time</span>
+            <span class="job-tag"><i class="ri-briefcase-line"></i> 3+ Yrs Exp</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="openApplyModal('Extrusion & Polymer Process Engineer')">Apply Now <i class="ri-arrow-right-line"></i></button>
+      </div>
+
+      <div class="job-card" data-category="sales">
+        <div class="job-info">
+          <h3>Packaging B2B Account Manager</h3>
+          <div class="job-tags">
+            <span class="job-tag"><i class="ri-map-pin-line"></i> Mumbai / Pune, IN</span>
+            <span class="job-tag"><i class="ri-time-line"></i> Full-time</span>
+            <span class="job-tag"><i class="ri-briefcase-line"></i> 3+ Yrs Exp</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="openApplyModal('Packaging B2B Account Manager')">Apply Now <i class="ri-arrow-right-line"></i></button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section-container">
+    <div class="section-title">
+      <h2>Frequently Asked Questions</h2>
+      <p>Have questions about our interview process? We're here to help.</p>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What is the interview and selection process?
+          <i class="ri-chevron-down-line faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Our process typically includes an initial HR screening call, followed by a technical/functional interview with the hiring manager, and a final leadership round.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Do you offer relocation support for plant engineers?
+          <i class="ri-chevron-down-line faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Yes! We provide relocation assistance and accommodation stipends for qualified technical and engineering roles moving to our manufacturing hubs.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Can I apply if my domain isn't listed above?
+          <i class="ri-chevron-down-line faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Absolutely. You can submit a general application, and our recruitment team will keep your resume on file for upcoming openings.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <div class="join-cta-banner">
+    <h2>Ready to elevate your career?</h2>
+    <p>Join a fast-growing environment where performance, technical precision, and innovation are valued.</p>
+    <button class="btn-primary" style="background: var(--white); color: var(--primary-color);" onclick="openApplyModal('General Application')">Submit Resume</button>
+  </div>
+
+  <!-- Interactive Application Modal -->
+  <div class="modal-overlay" id="applyModal">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeApplyModal()"><i class="ri-close-line"></i></button>
+      <h3>Apply for Position</h3>
+      <p id="selectedRoleText">Role: Senior PPC Engineer</p>
+
+      <form class="app-form" onsubmit="handleJobApplication(event)">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" placeholder="Enter your full name" required />
+        </div>
+
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" placeholder="name@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" placeholder="+91 98765 43210" required />
+        </div>
+
+        <div class="form-group">
+          <label>Years of Relevant Experience *</label>
+          <select required>
+            <option value="">Select Experience</option>
+            <option value="0-2">0 - 2 Years</option>
+            <option value="2-5">2 - 5 Years</option>
+            <option value="5+">5+ Years</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Resume / CV Link (Google Drive / Portfolio) *</label>
+          <input type="url" placeholder="https://drive.google.com/..." required />
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">Submit Application</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+<div id="footer-placeholder"></div>
+
+  <!-- Site Credits Bar -->
+  <div class="site-credits-bar">
+    <div class="credits-container">
+      
+      <div class="visitor-counter-box">
+        <div class="visitor-info">
+          <span class="visitor-label">Total Site Visitors</span>
+          <div class="visitor-count-wrapper">
+            <i class="ri-user-follow-line"></i>
+            <span class="visitor-number" id="visitor-count" data-count="124850">124,850</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="developer-credit-box">
+        <span class="credit-text">Designed &amp; Developed by</span>
+        <a href="https://instagram.com/anasha_digisoln" target="_blank" class="developer-badge" title="Contact Developer">
+          <div class="dev-logo-mark"><img src="/anasha.png" alt="Developer Logo"></div>
+          <div class="dev-info">
+            <strong>ANASHA DIGISOLN</strong>
+          </div>
+          <i class="ri-external-link-line dev-link-icon"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+<script src="script.js"></script>
+  <script>
+    
+    // 3. Category Filter
+    function filterJobs(category) {
+      const cards = document.querySelectorAll('.job-card');
+      const tabs = document.querySelectorAll('.tab-btn');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 4. Modal Handler
+    function openApplyModal(roleName) {
+      document.getElementById('selectedRoleText').textContent = 'Role: ' + roleName;
+      document.getElementById('applyModal').classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeApplyModal() {
+      document.getElementById('applyModal').classList.remove('is-active');
+      document.body.style.overflow = '';
+    }
+
+    function handleJobApplication(e) {
+      e.preventDefault();
+      alert('Thank you! Your application has been submitted successfully.');
+      closeApplyModal();
+    }
+
+    // 5. FAQ Accordion Toggle
+    function toggleFaq(element) {
+      const item = element.parentElement;
+      item.classList.toggle('is-open');
+    }
+
+    // 6. Dynamic Copyright Year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+<script src="components.js"></script>
+</body>
+</html>

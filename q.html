@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shrawani Addsbs India Pvt. Ltd. | Our Journey</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#fff;
+  color:#102d54;
+}
+.journey{
+  position:relative;
+  width:100%;
+  min-height:740px;
+  overflow:hidden;
+  padding:0 1.7vw 0;
+  background:
+    linear-gradient(180deg,rgba(239,248,255,.98) 0%,rgba(255,255,255,.96) 42%,#fff 100%);
+}
+
+/* CSS-only industrial background */
+.factory-bg{
+  position:absolute;
+  inset:0;
+  opacity:.10;
+  pointer-events:none;
+  overflow:hidden;
+}
+.factory-bg:before{
+  content:"";
+  position:absolute;
+  left:-2%;
+  top:-5%;
+  width:104%;
+  height:45%;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 70px,
+      rgba(50,91,125,.38) 71px 76px,
+      transparent 77px 150px),
+    linear-gradient(180deg,transparent 0 72%,rgba(70,100,120,.25) 73% 75%,transparent 76%);
+}
+.factory-bg:after{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:7%;
+  height:33%;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 105px,
+      rgba(54,88,112,.32) 106px 112px,
+      transparent 113px 190px);
+  transform:skewX(-10deg);
+}
+
+.timeline{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:1740px;
+  margin:auto;
+  padding-top:10px;
+}
+
+/* Continuous rising journey line */
+.journey-line{
+  position:absolute;
+  z-index:1;
+  left:1.6%;
+  right:0.8%;
+  top:51px;
+  height:5px;
+  background:linear-gradient(90deg,#79a83c 0%,#1a9f63 28%,#159be8 52%,#243ca7 78%,#1552bd 100%);
+  border-radius:100px;
+  transform:rotate(-8deg);
+  transform-origin:left center;
+  box-shadow:0 1px 2px rgba(0,60,120,.12);
+}
+.journey-line:after{
+  content:"";
+  position:absolute;
+  right:-2px;
+  top:-11px;
+  border-left:30px solid #1851b8;
+  border-top:13px solid transparent;
+  border-bottom:13px solid transparent;
+}
+
+.years{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:9px;
+  align-items:end;
+}
+
+/* Each column */
+.milestone{
+  position:relative;
+  height:730px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding-bottom:0;
+}
+
+/* Rising connector point */
+.point{
+  position:absolute;
+  z-index:5;
+  top:calc(38px - var(--rise));
+  left:50%;
+  width:26px;
+  height:26px;
+  transform:translate(-50%,-50%);
+  border:7px solid var(--accent);
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 2px rgba(255,255,255,.5);
+}
+.point:after{
+  content:"";
+  position:absolute;
+  inset:5px;
+  background:var(--accent);
+  border-radius:50%;
+}
+
+.year{
+  position:absolute;
+  z-index:6;
+  top:calc(76px - var(--rise));
+  left:50%;
+  transform:translateX(-50%);
+  color:var(--accent);
+  font-size:28px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+/* Card */
+.card{
+  position:relative;
+  z-index:3;
+  height:475px;
+  margin-top:auto;
+  border-radius:7px 7px 4px 4px;
+  padding:72px 18px 22px;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,.68),
+      rgba(229,245,255,.78) 55%,
+      rgba(177,221,247,.92));
+  box-shadow:0 1px 4px rgba(30,80,120,.08);
+}
+
+/* Subtle bottom "factory/photo" made from CSS */
+.card:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:38%;
+  opacity:.22;
+  background:
+    linear-gradient(90deg,transparent 0 8%,#244d66 8% 9%,transparent 9% 18%,#244d66 18% 19%,transparent 19% 30%,#244d66 30% 31%,transparent 31% 43%,#244d66 43% 44%,transparent 44% 55%,#244d66 55% 56%,transparent 56% 68%,#244d66 68% 69%,transparent 69% 80%,#244d66 80% 81%,transparent 81%),
+    linear-gradient(180deg,transparent 0 30%,#244d66 31% 33%,transparent 34% 65%,#244d66 66% 68%,transparent 69%);
+}
+.card:after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:44%;
+  background:linear-gradient(180deg,transparent,#eefaff);
+  pointer-events:none;
+}
+
+.icon{
+  position:absolute;
+  top:25px;
+  left:50%;
+  transform:translateX(-50%);
+  width:54px;
+  height:54px;
+  color:var(--accent);
+}
+.icon svg{
+  width:100%;
+  height:100%;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.card h2{
+  position:relative;
+  z-index:2;
+  margin:0 0 14px;
+  text-align:center;
+  color:var(--accent);
+  font-size:18px;
+  line-height:1.13;
+  font-weight:800;
+  letter-spacing:-.5px;
+}
+.card ul{
+  position:relative;
+  z-index:2;
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.card li{
+  position:relative;
+  margin:0 0 9px;
+  padding-left:14px;
+  color:#153452;
+  font-size:14px;
+  line-height:1.23;
+}
+.card li:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.48em;
+  width:0;
+  height:0;
+  border-left:6px solid #153452;
+  border-top:4px solid transparent;
+  border-bottom:4px solid transparent;
+}
+
+/* Accents matching the artwork's progression */
+.m2019{--accent:#247c24;--rise:0px}
+.m2020{--accent:#1b7f52;--rise:0px}
+.m2021{--accent:#168c68;--rise:0px}
+.m2022{--accent:#139be0;--rise:0px}
+.m2023{--accent:#1260b8;--rise:0px}
+.m2024{--accent:#1458bf;--rise:0px}
+.m2025{--accent:#3223a0;--rise:0px}
+.m2026{--accent:#174db1;--rise:0px}
+
+/* Position the points/year independently to reproduce the rising line */
+.m2019 .point,.m2019 .year{top:263px}
+.m2020 .point,.m2020 .year{top:250px}
+.m2021 .point,.m2021 .year{top:237px}
+.m2022 .point,.m2022 .year{top:217px}
+.m2023 .point,.m2023 .year{top:194px}
+.m2024 .point,.m2024 .year{top:158px}
+.m2025 .point,.m2025 .year{top:119px}
+.m2026 .point,.m2026 .year{top:64px}
+
+.m2019 .year,.m2020 .year,.m2021 .year,.m2022 .year,.m2023 .year,.m2024 .year,.m2025 .year,.m2026 .year{
+  margin-top:35px;
+}
+
+/* Keep year immediately below each point */
+.milestone .year{transform:translate(-50%,30px)}
+
+/* Responsive */
+@media(max-width:1200px){
+  .journey{overflow-x:auto;padding:0 15px}
+  .timeline{min-width:1200px}
+}
+@media(max-width:700px){
+  .journey{padding:20px 10px}
+  .timeline{min-width:1120px}
+}
+</style>
+</head>
+
+<body>
+
+<section class="journey" aria-label="Shrawani Addsbs India Private Limited journey from 2019 to 2026">
+
+  <div class="factory-bg"></div>
+
+  <div class="timeline">
+    <div class="journey-line"></div>
+
+    <div class="years">
+
+      <!-- 2019 -->
+      <article class="milestone m2019">
+        <div class="point"></div>
+        <div class="year">2019</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <path d="M23 18h18l4 7v27H19V25l4-7Z"/>
+              <path d="M19 25h26"/>
+              <path d="M28 18l4 7 4-7"/>
+            </svg>
+          </div>
+          <h2>Started as<br>Bag Conversion Unit</h2>
+          <ul>
+            <li>Established Shrawani Group</li>
+            <li>Began bag conversion operations</li>
+            <li>Focused on quality and customer service</li>
+            <li>Laid the foundation for future growth</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2020 -->
+      <article class="milestone m2020">
+        <div class="point"></div>
+        <div class="year">2020</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="9"/>
+              <path d="M32 9v7M32 48v7M9 32h7M48 32h7"/>
+              <path d="m16 16 5 5m22 22 5 5M48 16l-5 5M21 43l-5 5"/>
+              <circle cx="32" cy="32" r="20"/>
+            </svg>
+          </div>
+          <h2>Built<br>Production Capabilities</h2>
+          <ul>
+            <li>Strengthened operations</li>
+            <li>Expanded market presence</li>
+            <li>Built a strong customer base</li>
+            <li>Improved processes and quality systems</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2021 -->
+      <article class="milestone m2021">
+        <div class="point"></div>
+        <div class="year">2021</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <circle cx="22" cy="33" r="10"/>
+              <path d="M22 17v6M22 43v6M6 33h6M38 33h6"/>
+              <path d="m11 22 4 4m14 14 4 4M33 22l-4 4"/>
+              <path d="M39 46V31M46 46V24M53 46V16"/>
+              <path d="M37 46h19"/>
+              <path d="m47 17 6-7"/>
+            </svg>
+          </div>
+          <h2>Process<br>Improvement</h2>
+          <ul>
+            <li>Enhanced production efficiency</li>
+            <li>Improved quality control systems</li>
+            <li>Invested in people and technology</li>
+            <li>Prepared for next phase of expansion</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2022 -->
+      <article class="milestone m2022">
+        <div class="point"></div>
+        <div class="year">2022</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <path d="M16 53V20h32v33"/>
+              <path d="M22 28h5M37 28h5M22 36h5M37 36h5M22 44h5M37 44h5"/>
+              <path d="M10 53h44"/>
+              <path d="M29 53V45h6v8"/>
+            </svg>
+          </div>
+          <h2>Incorporated<br>as Private Limited</h2>
+          <ul>
+            <li>Converted to Shrawani Addsbs India Private Limited</li>
+            <li>Expanded operations with Tape Line</li>
+            <li>Installed Circular Looms</li>
+            <li>Scaled higher to serve better</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2023 -->
+      <article class="milestone m2023">
+        <div class="point"></div>
+        <div class="year">2023</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <path d="M10 52h44"/>
+              <path d="M16 52V39h8v13M28 52V31h8v21M40 52V21h8v31"/>
+              <path d="m38 20 9-9"/>
+              <path d="M40 11h7v7"/>
+            </svg>
+          </div>
+          <h2>Achieved<br>Sales Records</h2>
+          <ul>
+            <li>Delivered highest ever sales</li>
+            <li>Strengthened our presence in domestic and global markets</li>
+            <li>Expanded product portfolio</li>
+            <li>Built strong customer relationships</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2024 -->
+      <article class="milestone m2024">
+        <div class="point"></div>
+        <div class="year">2024</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="9"/>
+              <path d="M32 8v7M32 49v7M8 32h7M49 32h7"/>
+              <path d="m15 15 5 5m24 24 5 5M49 15l-5 5M20 44l-5 5"/>
+              <path d="M20 32a12 12 0 0 1 12-12"/>
+            </svg>
+          </div>
+          <h2>Added<br>Angle Inverter</h2>
+          <ul>
+            <li>Invested in advanced Angle Inverter technology</li>
+            <li>Improved efficiency and product quality</li>
+            <li>Enhanced production stability</li>
+            <li>Expanded capabilities to meet growing demand</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2025 -->
+      <article class="milestone m2025">
+        <div class="point"></div>
+        <div class="year">2025</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <path d="M9 52h46"/>
+              <path d="M15 52V35h13v17M36 52V27h13v25"/>
+              <path d="M11 35h21M32 27h20"/>
+              <path d="M43 27V17"/>
+              <path d="M38 17h10"/>
+              <path d="M43 11v6"/>
+            </svg>
+          </div>
+          <h2>Doubled<br>Our Capacity</h2>
+          <ul>
+            <li>Expanded facilities and capabilities</li>
+            <li>Doubled our production capacity</li>
+            <li>Integrated advanced process control</li>
+            <li>Strengthened supply chain and market reach</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 2026 -->
+      <article class="milestone m2026">
+        <div class="point"></div>
+        <div class="year">2026</div>
+
+        <div class="card">
+          <div class="icon">
+            <svg viewBox="0 0 64 64">
+              <circle cx="31" cy="32" r="14"/>
+              <circle cx="31" cy="32" r="6"/>
+              <path d="M31 32l17-17"/>
+              <path d="M44 14h9v9"/>
+              <path d="M16 48c7 6 19 7 28 2"/>
+            </svg>
+          </div>
+          <h2>Achieved<br>Production 1500 MT</h2>
+          <ul>
+            <li>Reached an annual production of 1500 MT</li>
+            <li>A major milestone in our growth journey</li>
+            <li>Serving a wider customer base globally</li>
+            <li>Committed to an even stronger future</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<script>
+/* Small entrance animation; all content remains HTML/CSS. */
+document.addEventListener("DOMContentLoaded", () => {
+  const items = document.querySelectorAll(".milestone");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.08});
+
+  items.forEach((item, index) => {
+    item.style.transitionDelay = `${index * 70}ms`;
+    observer.observe(item);
+  });
+});
+</script>
+
+<style>
+.milestone{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .7s ease,transform .8s cubic-bezier(.22,1,.36,1);
+}
+.milestone.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
+
+</body>
+</html>

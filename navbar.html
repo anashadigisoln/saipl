@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corporate Navbar - Morph to Floating Hamburger</title>
+  
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. Base Setup & CSS Variables
+       ========================================================================== */
+    :root {
+      --primary-color: #2563eb;
+      --bg-dark: #0f172a;
+      --nav-bg: rgba(255, 255, 255, 0.85);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --transition-speed: 0.4s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f8fafc;
+      color: var(--text-main);
+      padding-top: 100px;
+      line-height: 1.6;
+    }
+
+    /* Dummy Content to allow scrolling */
+    .dummy-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .dummy-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .dummy-content p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: var(--text-muted);
+    }
+
+    /* Reading Progress Bar */
+    .top-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--primary-color);
+      width: 0%;
+      z-index: 1001;
+      transition: width 0.1s ease-out;
+    }
+
+    /* ==========================================================================
+       2. Floating Responsive Header & Morphing Navbar
+       ========================================================================== */
+    .header {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1200px;
+      z-index: 1000;
+      transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar {
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 50px;
+      padding: 12px 28px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .top-bar-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    /* Logo Styles */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .logo-icon {
+      background: var(--primary-color);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    /* Navigation Links */
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+      align-items: center;
+      transition: opacity 0.2s ease, visibility 0.2s;
+    }
+
+    .nav-item {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: var(--primary-color);
+    }
+
+    /* Primary Button CTA */
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s, opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Hamburger Button Setup */
+    .hamburger-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 32px;
+      height: 32px;
+      padding: 2px;
+      z-index: 1002;
+    }
+
+    .hamburger-btn .bar {
+      height: 3px;
+      width: 100%;
+      background-color: var(--text-main);
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    /* Hide Hamburger on Desktop top-state */
+    @media (min-width: 993px) {
+      .hamburger-btn {
+        display: none;
+      }
+    }
+
+    /* ==========================================================================
+       3. Desktop Scrolled State: Collapse & Shift to Left Icon/Pill
+       ========================================================================== */
+    @media (min-width: 993px) {
+      .header.scrolled {
+        left: 30px;
+        transform: translateX(0);
+        width: auto;
+      }
+
+      .header.scrolled .navbar {
+        padding: 8px 16px;
+        border-radius: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.95);
+      }
+
+      .header.scrolled .nav-links,
+      .header.scrolled .desktop-cta {
+        display: none !important;
+      }
+
+      .header.scrolled .hamburger-btn {
+        display: flex;
+      }
+    }
+
+    /* ==========================================================================
+       4. Slide-in Navigation Drawer
+       ========================================================================== */
+    .left-drawer {
+      position: fixed;
+      top: 0;
+      left: -320px;
+      width: 300px;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 5px 0 25px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transition: left var(--transition-speed) ease;
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .left-drawer.is-active {
+      left: 0;
+    }
+
+    .drawer-header {
+      margin-bottom: 30px;
+    }
+
+    .drawer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .drawer-item {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 1.1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .drawer-item:hover {
+      background: #f1f5f9;
+      color: var(--primary-color);
+    }
+
+    /* Drawer Overlay */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .drawer-overlay.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Hamburger Animation to 'X' when menu open */
+    .hamburger-btn.is-active .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger-btn.is-active .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger-btn.is-active .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* ==========================================================================
+       5. Mobile Responsiveness (Left Logo, Right Hamburger)
+       ========================================================================== */
+    @media (max-width: 992px) {
+      body {
+        padding-top: 90px;
+      }
+
+      .header {
+        top: 15px;
+        width: 92%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .navbar {
+        padding: 10px 20px;
+      }
+
+      .nav-links,
+      .desktop-cta {
+        display: none;
+      }
+
+      .hamburger-btn {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Reading Progress Bar -->
+  <div id="topProgressBar" class="top-progress-bar"></div>
+
+  <!-- Main Header -->
+  <header class="header" id="header">
+    <nav class="navbar" id="navbar">
+      <!-- Top Bar Content -->
+      <div class="top-bar-content" id="top-bar-content">
+        <!-- Brand Logo -->
+        <a href="#" class="logo">
+          <span class="logo-icon"><i class="ri-pulse-fill"></i></span>
+          <span class="logo-text">NEXUS</span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-item active">Home</a></li>
+          <li><a href="products.html" class="nav-item">Products</a></li>
+          <li><a href="about.html" class="nav-item">About Us</a></li>
+          <li><a href="contact.html" class="nav-item">Contact Us</a></li>
+          <li><a href="blog.html" class="nav-item">Blog</a></li>
+        </ul>
+
+        <!-- Desktop CTA -->
+        <a href="#contact" class="btn-primary desktop-cta">Get Started</a>
+
+        <!-- Hamburger Button -->
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Slide-in Navigation Drawer -->
+  <aside class="left-drawer" id="left-drawer">
+    <div class="drawer-header">
+      <a href="#" class="logo">
+        <span class="logo-icon"><i class="ri-pulse-fill"></i></span>
+        <span class="logo-text">NEXUS</span>
+      </a>
+    </div>
+    <ul class="drawer-links">
+      <li><a href="index.html" class="drawer-item"><i class="ri-home-5-line"></i> Home</a></li>
+      <li><a href="products.html" class="drawer-item"><i class="ri-grid-line"></i> Products</a></li>
+      <li><a href="about.html" class="drawer-item"><i class="ri-building-line"></i> About Us</a></li>
+      <li><a href="blog.html" class="drawer-item"><i class="ri-lightbulb-line"></i> Blog</a></li>
+      <li><a href="careers.html" class="drawer-item"><i class="ri-briefcase-line"></i> Careers</a></li>
+      <li><a href="contact.html" class="drawer-item"><i class="ri-mail-line"></i> Contact Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- Backdrop Overlay for Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Page Content to scroll -->
+  <main class="dummy-content">
+    <h1>Scroll Down to See the Navbar Morph</h1>
+    <p>On desktop, when you scroll down, the full-width navbar will shrink smooth-morph into a left-aligned floating menu button with the NEXUS logo.</p>
+    <p>On mobile screens, it renders with the logo on the left and the hamburger button on the right.</p>
+    
+    <div style="height: 1200px; padding-top: 20px;">
+      <p><em>Keep scrolling down...</em></p>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.getElementById('header');
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const leftDrawer = document.getElementById('left-drawer');
+      const drawerOverlay = document.getElementById('drawer-overlay');
+      const topProgressBar = document.getElementById('topProgressBar');
+
+      // 1. Scroll Effect (Morph to floating pill on left)
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        // Reading Progress Bar
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight > 0 && topProgressBar) {
+          topProgressBar.style.width = (currentScrollY / docHeight) * 100 + '%';
+        }
+
+        // Toggle 'scrolled' class after 80px scroll
+        if (currentScrollY > 80) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // 2. Open / Close Navigation Drawer
+      function openMenu() {
+        leftDrawer.classList.add('is-active');
+        hamburgerBtn.classList.add('is-active');
+        drawerOverlay.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        leftDrawer.classList.remove('is-active');
+        hamburgerBtn.classList.remove('is-active');
+        drawerOverlay.classList.remove('is-active');
+        document.body.style.overflow = '';
+      }
+
+      hamburgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (leftDrawer.classList.contains('is-active')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      drawerOverlay.addEventListener('click', closeMenu);
+
+      // Close drawer on clicking links
+      document.querySelectorAll('.drawer-item').forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Close drawer on Pressing ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    });
+  </script>
+</body>
+</html>

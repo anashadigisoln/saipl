@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAIPL - Modern Interactive Navigation Bar</title>
+  
+  <!-- Fonts & Remix Icon Library CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(37, 99, 235, 0.35);
+      --accent-green: #22c55e;
+      --accent-green-glow: rgba(34, 197, 94, 0.4);
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --white: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+      --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f8fafc;
+      color: var(--text-dark);
+      overflow-x: hidden;
+      min-height: 200vh;
+    }
+
+    /* ==================== 1. ENHANCED DESKTOP HEADER ==================== */
+    .header {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 1240px;
+      z-index: 1000;
+      transition: all 0.5s var(--transition-smooth);
+    }
+
+    .navbar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      padding: 0.65rem 1.5rem;
+      border-radius: 100px;
+      box-shadow: var(--glass-shadow);
+      transition: all 0.4s var(--transition-smooth);
+    }
+
+    /* Ambient Glow behind Navbar */
+    .navbar::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 100px;
+      background: linear-gradient(90deg, rgba(37,99,235,0.15), rgba(34,197,94,0.15), rgba(37,99,235,0.15));
+      z-index: -1;
+      opacity: 0.6;
+      filter: blur(10px);
+      transition: opacity 0.3s ease;
+    }
+
+    .navbar:hover::before {
+      opacity: 1;
+    }
+
+    .top-bar-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    /* Logo Animations */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      color: var(--text-dark);
+      text-decoration: none;
+      position: relative;
+      transition: transform 0.4s var(--transition-spring);
+    }
+
+    .logo:hover {
+      transform: scale(1.05) translateY(-1px);
+    }
+
+    .logo-text {
+      background: linear-gradient(135deg, #0f172a 30%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .logo-dot {
+      color: var(--primary-color);
+      display: inline-block;
+      font-size: 1.6rem;
+      line-height: 1;
+      animation: pulseDot 2.5s infinite var(--transition-smooth);
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--primary-glow)); }
+      50% { transform: scale(1.4) translateY(-2px); filter: drop-shadow(0 0 8px var(--primary-glow)); color: #3b82f6; }
+    }
+
+    /* Dynamic Nav Links and Sliding Hover Indicator */
+    .nav-links-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* The Magnetic Sliding Background Pill */
+    .nav-hover-pill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 50px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: transform 0.35s var(--transition-spring), 
+                  left 0.35s var(--transition-spring), 
+                  width 0.35s var(--transition-spring), 
+                  opacity 0.2s ease;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    }
+
+    .nav-hover-pill.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .nav-item {
+      position: relative;
+      display: inline-block;
+      padding: 0.55rem 1.15rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 50px;
+      transition: color 0.3s ease, transform 0.2s ease;
+      z-index: 2;
+    }
+
+    .nav-item:hover {
+      color: var(--primary-color);
+    }
+
+    .nav-item.active {
+      color: var(--primary-color);
+    }
+
+    /* Active Dot Indicator under active text */
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--primary-color);
+    }
+
+    /* WhatsApp CTA Button with Pulse and Shine Effect */
+    .btn-whatsapp {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: var(--white);
+      padding: 0.65rem 1.35rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-decoration: none;
+      overflow: hidden;
+      box-shadow: 0 4px 15px var(--accent-green-glow);
+      transition: all 0.35s var(--transition-spring);
+    }
+
+    .btn-whatsapp i {
+      font-size: 1.15rem;
+      transition: transform 0.4s var(--transition-spring);
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 25px var(--accent-green-glow);
+      color: var(--white);
+    }
+
+    .btn-whatsapp:hover i {
+      transform: rotate(15deg) scale(1.2);
+    }
+
+    /* Sweep Shine Effect */
+    .btn-whatsapp::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -75%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+      transform: rotate(25deg);
+      transition: all 0.6s ease;
+    }
+
+    .btn-whatsapp:hover::before {
+      left: 125%;
+    }
+
+    /* Hamburger Button with Smooth Morph Transformation */
+    .hamburger-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s var(--transition-spring);
+      z-index: 1002;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .hamburger-btn:hover {
+      transform: scale(1.08);
+      background: var(--white);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    .bar {
+      width: 20px;
+      height: 2px;
+      background-color: var(--text-dark);
+      border-radius: 2px;
+      transition: transform 0.4s var(--transition-spring), opacity 0.3s ease, width 0.3s ease;
+      transform-origin: center;
+    }
+
+    /* Morphing Hamburger to Elastic Cross */
+    .hamburger-btn.is-active .bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+      background-color: var(--primary-color);
+    }
+    .hamburger-btn.is-active .bar:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    .hamburger-btn.is-active .bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+      background-color: var(--primary-color);
+    }
+
+    /* ==================== 2. COMPACT SCROLLED NAVBAR STATE ==================== */
+    @media screen and (min-width: 993px) {
+      .header.scrolled {
+        top: 1rem;
+        width: 85%;
+      }
+
+      .header.scrolled .navbar {
+        padding: 0.5rem 1.25rem;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.12);
+      }
+    }
+
+    /* ==================== 3. MOBILE RESPONSIVE & DRAWER ==================== */
+    @media screen and (max-width: 992px) {
+      .header {
+        top: 1rem;
+        width: 94%;
+      }
+
+      .navbar {
+        padding: 0.6rem 1rem;
+      }
+
+      .nav-links-wrapper, 
+      .desktop-cta {
+        display: none !important;
+      }
+
+      .hamburger-btn {
+        display: flex !important;
+      }
+    }
+
+    /* ==================== 4. INTERACTIVE SLIDE DRAWER ==================== */
+    .left-drawer {
+      position: fixed;
+      top: 0;
+      left: -340px;
+      width: 300px;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      box-shadow: 20px 0 50px rgba(0, 0, 0, 0.15);
+      padding: 2rem 1.5rem;
+      z-index: 1001;
+      transition: left 0.5s var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .left-drawer.is-active {
+      left: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    }
+
+    .drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Staggered Entrance Animation for Drawer Items */
+    .drawer-links li {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.4s ease, transform 0.4s var(--transition-spring);
+    }
+
+    .left-drawer.is-active .drawer-links li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Dynamic inline animation delay generation in JS or CSS nth-child */
+    .left-drawer.is-active .drawer-links li:nth-child(1) { transition-delay: 0.1s; }
+    .left-drawer.is-active .drawer-links li:nth-child(2) { transition-delay: 0.15s; }
+    .left-drawer.is-active .drawer-links li:nth-child(3) { transition-delay: 0.2s; }
+    .left-drawer.is-active .drawer-links li:nth-child(4) { transition-delay: 0.25s; }
+    .left-drawer.is-active .drawer-links li:nth-child(5) { transition-delay: 0.3s; }
+    .left-drawer.is-active .drawer-links li:nth-child(6) { transition-delay: 0.35s; }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      padding: 0.85rem 1.1rem;
+      border-radius: 16px;
+      text-decoration: none;
+      transition: all 0.3s var(--transition-spring);
+    }
+
+    .drawer-item i {
+      font-size: 1.35rem;
+      color: var(--text-muted);
+      transition: transform 0.3s var(--transition-spring), color 0.3s ease;
+    }
+
+    .drawer-item:hover {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--primary-color);
+      transform: translateX(6px);
+    }
+
+    .drawer-item:hover i {
+      color: var(--primary-color);
+      transform: scale(1.2);
+    }
+
+    .btn-drawer-cta {
+      margin-top: 1.5rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+      color: var(--white) !important;
+      padding: 0.9rem 1.25rem;
+      border-radius: 16px;
+      justify-content: center;
+      box-shadow: 0 10px 20px var(--primary-glow);
+    }
+
+    .btn-drawer-cta i {
+      color: var(--white) !important;
+    }
+
+    .btn-drawer-cta:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 14px 28px var(--primary-glow);
+    }
+
+    /* Dark Blur Overlay */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .drawer-overlay.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+  <!-- Main Header -->
+  <header class="header" id="header">
+    <nav class="navbar" id="navbar">
+      <!-- Top Bar Content -->
+      <div class="top-bar-content" id="top-bar-content">
+        
+        <!-- Brand Logo -->
+        <a href="#" class="logo" id="logo">
+          <span class="logo-text">SAIPL</span>
+          <span class="logo-dot">.</span>
+        </a>
+
+        <!-- Desktop Navigation with Magnetic Hover Pill -->
+        <div class="nav-links-wrapper">
+          <div class="nav-hover-pill" id="nav-hover-pill"></div>
+          <ul class="nav-links" id="nav-links">
+            <li><a href="index.html" class="nav-item active">Home</a></li>
+            <li><a href="products.html" class="nav-item">Products</a></li>
+            <li><a href="about.html" class="nav-item">About Us</a></li>
+            <li><a href="contact.html" class="nav-item">Contact Us</a></li>
+            <li><a href="blog.html" class="nav-item">Blog</a></li>
+          </ul>
+        </div>
+
+        <!-- WhatsApp CTA Button -->
+        <a href="https://wa.me/919975379874?text=Hello%21%20I%20am%20interested%20in%20your%20PP%2FHDPE%2FLeno%2FBOPP%20fabrics." 
+           class="btn-whatsapp desktop-cta" 
+           target="_blank" 
+           rel="noopener noreferrer">
+          <i class="ri-whatsapp-line"></i>
+          <span>+91 99753 79874</span>
+        </a>
+
+        <!-- Hamburger Button -->
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- Slide-in Navigation Drawer -->
+  <aside class="left-drawer" id="left-drawer">
+    <div class="drawer-header">
+      <a href="#" class="logo">
+        <span class="logo-text">SAIPL</span>
+        <span class="logo-dot">.</span>
+      </a>
+      <button id="close-drawer-btn" class="text-slate-400 hover:text-slate-700 text-xl p-1 rounded-full hover:bg-slate-100 transition">
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+    
+    <ul class="drawer-links">
+      <li><a href="index.html" class="drawer-item"><i class="ri-home-5-line"></i> Home</a></li>
+      <li><a href="products.html" class="drawer-item"><i class="ri-grid-line"></i> Products</a></li>
+      <li><a href="about.html" class="drawer-item"><i class="ri-building-line"></i> About Us</a></li>
+      <li><a href="career.html" class="drawer-item"><i class="ri-briefcase-line"></i> Careers</a></li>
+      <li><a href="blog.html" class="drawer-item"><i class="ri-lightbulb-line"></i> Blog</a></li>
+      <li><a href="contact.html" class="drawer-item btn-drawer-cta"><i class="ri-mail-line"></i> Contact Us</a></li>
+    </ul>
+
+    <div class="mt-auto pt-6 border-t border-slate-200/60">
+      <p class="text-xs text-slate-400 font-medium text-center">© 2026 SAIPL. All rights reserved.</p>
+    </div>
+  </aside>
+
+  <!-- Backdrop Overlay for Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Hero Section & Interactive Scroll Test Area -->
+  <main class="pt-36 px-4 max-w-6xl mx-auto space-y-12">
+    
+    <!-- Hero Banner -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-900 text-white p-8 md:p-14 shadow-2xl">
+      <div class="relative z-10 max-w-2xl space-y-6">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/10 backdrop-blur-md border border-white/20 text-blue-200">
+          <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span> High Performance Motion Nav
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+          Next-Gen Fluid <br/>Navigation Bar
+        </h1>
+        <p class="text-slate-200 text-base md:text-lg leading-relaxed">
+          Hover over desktop links to observe the magnetic dynamic backdrop pill. Scroll down to trigger compact glassmorphism transformations, or trigger the mobile menu to feel the elastic physics drawer.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <button id="trigger-mobile-view" class="px-6 py-3 bg-white text-blue-600 rounded-xl font-bold hover:bg-slate-100 transition shadow-lg active:scale-95">
+            Test Drawer Menu
+          </button>
+          <a href="#demo-content" class="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl font-semibold hover:bg-white/20 transition">
+            Scroll Demo Section
+          </a>
+        </div>
+      </div>
+      <!-- Background Ambient Glow Shapes -->
+      <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -top-16 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    </div>
+
+    <!-- Features Overview Section -->
+    <section id="demo-content" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4">
+          <i class="ri-cursor-line"></i>
+        </div>
+        <h3 class="font-bold text-lg text-slate-900 mb-2">Magnetic Hover Physics</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          The navigation bar dynamically calculates coordinates on link mouse enter, sliding a soft glowing pill directly under your cursor.
+        </p>
+      </div>
+
+      <div class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-4">
+          <i class="ri-drop-line"></i>
+        </div>
+        <h3 class="font-bold text-lg text-slate-900 mb-2">Frosted Glassmorphism</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Ultra-smooth backdrop blur filter with responsive ambient border glow adapts seamlessly to scrolled page states.
+        </p>
+      </div>
+
+      <div class="p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4">
+          <i class="ri-layout-grid-line"></i>
+        </div>
+        <h3 class="font-bold text-lg text-slate-900 mb-2">Staggered Drawer Motion</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          The slide-in drawer uses custom cubic-bezier curves for elastic menu item entrances and subtle backdrop blurring.
+        </p>
+      </div>
+    </section>
+
+    <!-- Scroll Spacer Content for Testing Scroll Compacting -->
+    <section class="p-12 bg-white rounded-3xl border border-slate-200/80 space-y-6 text-center">
+      <h2 class="text-2xl font-bold text-slate-800">Scroll Down To Experience Navbar Shrink</h2>
+      <p class="text-slate-500 max-w-md mx-auto">
+        As you scroll down the page, the glass header smoothly compacts and adjusts its shadow and background density.
+      </p>
+      <div class="pt-8 flex justify-center">
+        <div class="w-8 h-12 rounded-full border-2 border-slate-300 flex justify-center pt-2">
+          <div class="w-1.5 h-3 bg-blue-600 rounded-full animate-bounce"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Content Height -->
+    <div class="h-96"></div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements Selection
+      const header = document.getElementById('header');
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const leftDrawer = document.getElementById('left-drawer');
+      const drawerOverlay = document.getElementById('drawer-overlay');
+      const closeDrawerBtn = document.getElementById('close-drawer-btn');
+      const triggerMobileView = document.getElementById('trigger-mobile-view');
+      
+      const navLinksContainer = document.getElementById('nav-links');
+      const navItems = document.querySelectorAll('.nav-item');
+      const hoverPill = document.getElementById('nav-hover-pill');
+
+      /* ==================== 1. MAGNETIC SLIDING HOVER PILL ==================== */
+      // Moves hover pill to specified element
+      function movePillToElement(element) {
+        if (!element || !hoverPill) return;
+        const rect = element.getBoundingClientRect();
+        const parentRect = navLinksContainer.getBoundingClientRect();
+
+        const left = rect.left - parentRect.left;
+        const width = rect.width;
+
+        hoverPill.style.left = `${left}px`;
+        hoverPill.style.width = `${width}px`;
+        hoverPill.classList.add('active');
+      }
+
+      // Hide pill when mouse leaves menu wrapper
+      function hidePill() {
+        // Return pill to active link if available
+        const activeItem = document.querySelector('.nav-item.active');
+        if (activeItem) {
+          movePillToElement(activeItem);
+        } else {
+          hoverPill.classList.remove('active');
+        }
+      }
+
+      // Attach hover listeners
+      navItems.forEach(item => {
+        item.addEventListener('mouseenter', (e) => {
+          movePillToElement(e.target);
+        });
+
+        item.addEventListener('click', (e) => {
+          navItems.forEach(i => i.classList.remove('active'));
+          e.target.classList.add('active');
+          movePillToElement(e.target);
+        });
+      });
+
+      // Initialize pill position on active item
+      const activeItem = document.querySelector('.nav-item.active');
+      if (activeItem) {
+        // Slight timeout to ensure accurate initial bounding coordinates rendering
+        setTimeout(() => {
+          movePillToElement(activeItem);
+        }, 100);
+      }
+
+      navLinksContainer.addEventListener('mouseleave', hidePill);
+
+      /* ==================== 2. MOBILE DRAWER PHYSICS & TOGGLES ==================== */
+      function toggleDrawer(open) {
+        const isOpen = open !== undefined ? open : !leftDrawer.classList.contains('is-active');
+        
+        if (isOpen) {
+          leftDrawer.classList.add('is-active');
+          drawerOverlay.classList.add('is-active');
+          hamburgerBtn.classList.add('is-active');
+          document.body.style.overflow = 'hidden'; // Lock scroll when open
+        } else {
+          leftDrawer.classList.remove('is-active');
+          drawerOverlay.classList.remove('is-active');
+          hamburgerBtn.classList.remove('is-active');
+          document.body.style.overflow = '';
+        }
+      }
+
+      hamburgerBtn.addEventListener('click', () => toggleDrawer());
+      drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+      if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', () => toggleDrawer(false));
+      if (triggerMobileView) triggerMobileView.addEventListener('click', () => toggleDrawer(true));
+
+      /* ==================== 3. SCROLL DETECTOR & COMPACT NAVBAR ==================== */
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        // Toggle compact scrolled styling
+        if (currentScrollY > 40) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+
+        // Recalculate hover pill position on scroll resize shifts
+        const activeNav = document.querySelector('.nav-item.active');
+        if (activeNav) movePillToElement(activeNav);
+
+        lastScrollY = currentScrollY;
+      });
+
+      // Recalculate pill position on window resize
+      window.addEventListener('resize', () => {
+        const activeNav = document.querySelector('.nav-item.active');
+        if (activeNav) movePillToElement(activeNav);
+      });
+    });
+  </script>
+</body>
+</html>
